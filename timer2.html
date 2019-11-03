@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Домашнее задание объекты</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="timer.css">
+  
+  
+
+</head>
+<body>
+<h1 class="countdown-title">Таймер отсчета</h1>
+
+<section class="countdown">
+  <div class="countdown-number">
+    <p class="minutes countdown-time"></p>
+    <p class="countdown-text">Minutes</p>
+  </div>
+  <div class="countdown-number">
+    <p class="seconds countdown-time"></p>
+    <p class="countdown-text">Seconds</p>
+  </div>
+</section>
+
+<div>
+  <button class="plus_min">plus<br>min</button>
+  <button class="minus_min">minus<br>min</button>
+  <button class="plus_sec">plus<br>sec</button>
+  <button class="minus_sec">minus<br>sec</button>
+  <button class="start">start<br>timer</button>
+</div>
+
+<div class="message">
+  
+</div>
+
+
+<script type="text/javascript">
+    const timer = document.querySelector('.countdown');
+    const minutes = document.querySelector('.minutes');
+    const seconds = document.querySelector('.seconds');
+    const message = document.querySelector('.message');
+
+    const plus_min = document.querySelector('.plus_min');
+    const minus_min = document.querySelector('.minus_min');
+    const plus_sec = document.querySelector('.plus_sec');
+    const minus_sec = document.querySelector('.minus_sec');
+    const start = document.querySelector('.start');
+
+    let countSec = 0;
+    let countMin = 0;
+
+    const updateText = () =>{ 
+      minutes.innerHTML = (0 + String(countMin)).slice(-2);
+      seconds.innerHTML = (0 + String(countSec)).slice(-2);
+    }
+    updateText();
+
+    const countDown = () => { 
+      let total = countSec + countMin * 60;
+      const timeinterval = setTimeout(countDown, 1000);
+      if (total <= 0) {
+        clearInterval(timeinterval);
+        timer.style.display = 'none';
+        message.innerHTML = '<p>Время вышло...</p>'
+      }
+      if(countSec > 0) countSec--;
+      else{
+        countSec = 59;
+        countMin--;
+      } 
+      updateText();
+    }
+
+    plus_sec.onclick = () =>{
+      if(countSec < 59) ++countSec;
+      else{
+        countSec = 0;
+        ++countMin;
+      }
+      updateText()
+    }
+
+    plus_min.onclick = () =>{
+      ++countMin;
+      
+      updateText()
+    }
+
+    minus_sec.onclick = () =>{
+      if(countMin <= 0 && countSec===0){
+        countSec = 0;
+        countMin = 0;
+        return;
+      }
+      if(countSec > 0) --countSec;
+      else{
+        countSec = 59;
+        --countMin;
+      }
+      updateText();
+    }
+
+    minus_min.onclick = () =>{
+      if(countMin <= 0){
+        countMin = 0;
+        return;
+      } else{
+        --countMin;
+      }
+      updateText();
+    }
+
+    start.onclick = () => {
+        countDown();  
+    }
+
+</script>
+</body>
+</html>
